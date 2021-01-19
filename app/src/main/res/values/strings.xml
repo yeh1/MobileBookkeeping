@@ -6,4 +6,10 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+
+    <string name="login_title">LOGIN</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+
+
 </resources>
