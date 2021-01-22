@@ -98,11 +98,13 @@
             >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_dashboard_black_24dp"/>
+                android:src="@drawable/shopping"
+                android:background="@color/purple_500"
+                />
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -142,11 +144,12 @@
 
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_dashboard_black_24dp"/>
+                android:src="@drawable/fuel"
+                android:background="@color/teal_200"/>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

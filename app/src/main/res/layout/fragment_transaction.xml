@@ -5,10 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:orientation="vertical"
+    tools:context=".ui.transaction.HomeFragment">
+
+
 
 
     <include layout="@layout/row_view"/>
+    <include layout="@layout/detail_row_view"/>
+
 
     <!--    <TextView-->
 <!--        android:id="@+id/text_home"-->
