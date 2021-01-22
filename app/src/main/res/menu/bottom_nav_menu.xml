@@ -15,5 +15,9 @@
         android:id="@+id/navigation_profile"
         android:icon="@drawable/user"
         android:title="@string/title_notifications" />
+    <item
+        android:id="@+id/navigation_add"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="Add" />
 
 </menu>
