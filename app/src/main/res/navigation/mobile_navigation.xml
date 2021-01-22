@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.mobilebookkeeping.ui.transaction.HomeFragment"
+        android:name="com.example.mobilebookkeeping.ui.transaction.TransactionFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_transaction" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.mobilebookkeeping.ui.dashboard.DashboardFragment"
+        android:name="com.example.mobilebookkeeping.ui.dashboard.TransactionFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 

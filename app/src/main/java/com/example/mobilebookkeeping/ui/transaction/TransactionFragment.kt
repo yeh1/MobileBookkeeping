@@ -8,17 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.mobilebookkeeping.R
 
-class HomeFragment : Fragment() {
+class TransactionFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var transactionViewModel: TransactionViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProvider(this).get(HomeViewModel::class.java)
+        transactionViewModel =
+                ViewModelProvider(this).get(TransactionViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_transaction, container, false)
 //        val textView: TextView = root.findViewById(R.id.text_home)
 //        homeViewModel.text.observe(viewLifecycleOwner, Observer {

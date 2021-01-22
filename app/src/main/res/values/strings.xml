@@ -2,8 +2,8 @@
     <string name="app_name">MobileBookkeeping</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="title_home">Home</string>
+    <string name="title_home">Transactions</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Profile</string>
 
 </resources>
