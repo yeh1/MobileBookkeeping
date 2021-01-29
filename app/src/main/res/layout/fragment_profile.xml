@@ -1,84 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
+    tools:context=".ui.profile.ProfileFragment"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:src="@drawable/user"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="UserName"
+        android:textSize="50dp"
+        />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Sign Out"/>
+
+    <View
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="#8A8787"
+        />
 
     <LinearLayout
-        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/teal_700"
-        >
+        android:background="@drawable/underline">
 
-    <TextView
-        android:id="@+id/year_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="2020"
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        />
-    <TextView
-        android:id="@+id/month_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="December"
-        android:textSize="30dp"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/white"
-        />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-
-        >
-
-        <TextView
-            android:id="@+id/income_text"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="My Account"
-            android:textSize="35sp"
-            android:textColor="@color/white"
-            />
-
-
-    </RelativeLayout>
-
-        </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/friend_bar"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="vertical"
-        android:background="@color/teal_700"
-        android:layout_below="@id/top_bar"
-        >
+            android:layout_margin="10dp"
+            android:textSize="16dp"
+            android:text="Set the Budeget"/>
 
         <TextView
-            android:id="@+id/year_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="2020"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            />
+            android:layout_margin="10dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+
+            android:textColor="#F44336"
+            android:layout_gravity="center_horizontal"
+            android:text="Buget Amount: $1000"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textColor="#8BC34A"
+            android:layout_gravity="center_horizontal"
+            android:text="Buget Remain: $380"/>
 
 
     </LinearLayout>
 
 
-
-</RelativeLayout>
+    <!--    <TextView-->
+<!--        android:id="@+id/text_notifications"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+</LinearLayout>
