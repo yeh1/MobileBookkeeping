@@ -22,15 +22,23 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <include layout="@layout/content_main" />
+    <include
+        layout="@layout/content_main"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center" />
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_margin="@dimen/fab_margin"-->
-<!--        app:srcCompat="@drawable/ic_baseline_add_24" />-->
+    <include
+        android:id="@+id/include"
+        layout="@layout/fragment_container" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:foreground="@drawable/ic_baseline_add_24"
+        app:srcCompat="@drawable/ic_baseline_add_24" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

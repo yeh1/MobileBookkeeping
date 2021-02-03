@@ -13,6 +13,9 @@
     <string name="password">password</string>
     <string name="title_trasaction">Transaction</string>
     <string name="title_profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_new_event">Creating New Event</string>
 
 
 </resources>
