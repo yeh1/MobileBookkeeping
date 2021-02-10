@@ -16,6 +16,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_new_event">Creating New Event</string>
-
+    <string name="confirm_textview">Confirm</string>
+    <string name="add_dialog_confirm">Confirming info</string>
 
 </resources>

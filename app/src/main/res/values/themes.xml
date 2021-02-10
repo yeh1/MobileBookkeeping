@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MobileBookkeeping" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MobileBookkeeping" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -14,12 +14,12 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.MobileBookkeeping.NoActionBar">
+    <style name="Theme.MobileBookkeeping.NoActionBar" >
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.MobileBookkeeping.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Mob.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.MobileBookkeeping.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Mob.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

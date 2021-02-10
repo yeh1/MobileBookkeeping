@@ -10,25 +10,23 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.MobileBookkeeping.AppBarOverlay">
+        android:theme="@style/Theme.Mob.AppBarOverlay"
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.MobileBookkeeping.PopupOverlay" />
+            app:popupTheme="@style/Theme.Mob.PopupOverlay"
+             />
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
     <include
-        layout="@layout/content_main"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="center" />
-
+        layout="@layout/content_main"/>
     <include
-        android:id="@+id/include"
         layout="@layout/fragment_container" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,9 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:foreground="@drawable/ic_baseline_add_24"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
+         />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashBoardFragment"
+    tools:context=".DashboardFragment"
     android:orientation="vertical">
 
     <LinearLayout
@@ -41,7 +41,8 @@
             android:background="@color/white"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-        />
+
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,7 +71,7 @@
 
         </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"

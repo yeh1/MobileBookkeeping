@@ -99,14 +99,19 @@
             android:layout_gravity="center_vertical"
             android:text="Enter the amount:"/>
 
-        <TextView
+        <EditText
+            android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:textSize="16dp"
-            android:textColor="#F44336"
             android:layout_gravity="center_vertical"
-            android:text="$5000"/>
+            android:layout_marginLeft="100dp"
+            android:hint="$0"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+
+            android:textColor="#F44336"
+            android:textSize="16dp"
+            android:textStyle="italic" />
 
     </LinearLayout>
     <LinearLayout
@@ -138,7 +143,8 @@
                 android:text="Enter Comment:"/>
             </LinearLayout>
 
-        <TextView
+        <EditText
+            android:id="@+id/user_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -146,14 +152,12 @@
             android:textSize="16dp"
             android:textColor="#F44336"
             android:layout_gravity="center_vertical"
-            android:text="Lead money to Bert. He said he will give it back to me before 2020
-
-
-            "/>
+            android:hint="leave comment here"/>
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/done_button"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
