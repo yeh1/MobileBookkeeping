@@ -44,6 +44,19 @@
             android:text="In School" />
 
         <TextView
+            android:id="@+id/income_view_text_indetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="fill_horizontal"
+            android:layout_centerVertical="true"
+            android:text="$14"
+            android:textColor="#A4C639"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_alignRight="@+id/comment_view_text_indetail" />
+
+        <TextView
             android:id="@+id/expenses_view_text_indetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

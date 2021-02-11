@@ -1,4 +1,4 @@
-package com.example.mobilebookkeeping
+package com.example.mob
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobilebookkeeping.EventAdapter
+import com.example.mobilebookkeeping.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,21 +23,19 @@ lateinit var eventProvider: EventProvider
  * Use the [TransactionFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TransactionFragment : Fragment(), EventProvider {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class TransactionFragment(var adapter: EventAdapter?) : Fragment(), EventProvider {
 
-    var adapter: EventAdapter? = null
+
+    //var adapter: EventAdapter? = null
     private var events: ArrayList<MyEvent>? = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.let {
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +44,7 @@ class TransactionFragment : Fragment(), EventProvider {
         // Inflate the layout for this fragment
 
         val recyclerView = inflater.inflate(R.layout.fragment_transaction, container, false) as RecyclerView
-        adapter = events?.let { EventAdapter(context, it) }
+        //adapter = events?.let { EventAdapter(it) }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

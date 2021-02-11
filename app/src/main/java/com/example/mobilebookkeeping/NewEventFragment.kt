@@ -1,4 +1,4 @@
-package com.example.mobilebookkeeping
+package com.example.mob
 
 import android.content.Context
 import android.os.Bundle
@@ -8,37 +8,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import com.example.mobilebookkeeping.EventAdapter
+import com.example.mobilebookkeeping.R
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.add_event.*
 import kotlinx.android.synthetic.main.add_event.view.*
-import kotlinx.android.synthetic.main.dialog_add_event.*
 import kotlinx.android.synthetic.main.dialog_add_event.view.*
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class NewEventFragment(var adapter: EventAdapter) : Fragment(), EventProvider {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [NewEventFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class NewEventFragment : Fragment(), EventProvider {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     lateinit var eventProvider: EventProvider
-    val transactionFragment = TransactionFragment()
-
+    //val adapter = EventAdapter(ArrayList())
+    val transactionFragment = TransactionFragment(adapter)
+    private val date = Date()
+    var mapOfEvent = HashMap<String, MyEvent>()
+    val eventRef = FirebaseFirestore
+        .getInstance()
+        .collection("events")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-
     }
     private fun showConfirmDialog(view: View, amount: String, user_comment: String){
         val builder = context?.let { AlertDialog.Builder(it) }
@@ -49,9 +39,27 @@ class NewEventFragment : Fragment(), EventProvider {
         view.confirm_message.setText("Amount:" + amount+ user_comment)
 
         builder?.setPositiveButton(android.R.string.ok){ _, _ ->
-            val newEvent = MyEvent(amount.toInt(), user_comment)
-            eventProvider.sendEvents(newEvent)
-            Log.d("myTag", "event sent" + amount + user_comment);
+            val newDateEvent = MyEvent(0, "", true)
+            //newDateEvent.title = date.toString().substring(0,10)
+            val newEvent = MyEvent(amount.toInt(), user_comment, false)
+            if(toggle_button.isChecked){
+                newEvent.isExpense = false
+            }
+           // Log.d("myTag","no q: " + eventRef.)
+
+            if(mapOfEvent.containsKey(date.toString().substring(0,10))){
+                mapOfEvent.get(date.toString().substring(0,10))?.events?.add(newEvent)
+                Log.d("myTag","equal:"+ mapOfEvent.get(date.toString().substring(0,10))?.events?.toString())
+
+            }else{
+                //val newEvent = MyEvent(amount.toInt(), user_comment, false)
+                mapOfEvent.put(date.toString().substring(0,10),newEvent)
+                //adapter.addNewEvent(newEvent)
+                mapOfEvent.get(date.toString().substring(0,10))?.events?.add(newEvent)
+                Log.d("myTag","no q: " )
+            }
+
+            eventProvider.sendEvents(newDateEvent)
         }
 
         builder?.setNegativeButton(android.R.string.cancel, null)
@@ -82,8 +90,9 @@ class NewEventFragment : Fragment(), EventProvider {
         myView.done_button.setOnClickListener {
             showConfirmDialog(myView, amount.text.toString(), user_comment.text.toString())
         }
-
         return myView
+
+
     }
 
 //    companion object {
