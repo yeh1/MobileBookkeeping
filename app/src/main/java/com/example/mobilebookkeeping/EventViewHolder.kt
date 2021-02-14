@@ -4,7 +4,7 @@ import android.view.View
 import android.view.View.OnLongClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mob.MyEvent
+import com.example.mobilebookkeeping.MyEvent
 import kotlinx.android.synthetic.main.detail_row_view.view.*
 
 

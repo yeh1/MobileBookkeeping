@@ -1,4 +1,4 @@
-package com.example.mob
+package com.example.mobilebookkeeping
 
 import android.content.Context
 import android.os.Bundle

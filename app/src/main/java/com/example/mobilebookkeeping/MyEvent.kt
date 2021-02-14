@@ -1,4 +1,4 @@
-package com.example.mob
+package com.example.mobilebookkeeping
 
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot

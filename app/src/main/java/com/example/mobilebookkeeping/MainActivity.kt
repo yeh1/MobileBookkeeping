@@ -1,4 +1,4 @@
-package com.example.mob
+package com.example.mobilebookkeeping
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
