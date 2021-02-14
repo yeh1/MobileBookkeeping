@@ -1,12 +1,16 @@
 package com.example.mobilebookkeeping
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import com.example.mobilebookkeeping.category.Category
+import com.example.mobilebookkeeping.category.CategoryFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -55,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             ft.replace(R.id.fragment_container, addFragment)
             ft.commit()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -71,5 +76,16 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
+
+
+
+//    override fun OnSelected(category: Category) {
+////        setContentView(R.layout.fragment_category)
+//        val ft = supportFragmentManager.beginTransaction()
+//        ft.replace(R.id.fragment_container, CategoryFragment())
+//        ft.commit()
+//    }
 
 }

@@ -1,28 +1,39 @@
 package com.example.mobilebookkeeping
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.replace
+import com.example.mobilebookkeeping.category.Category
+import com.example.mobilebookkeeping.category.CategoryFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.add_event.*
 import kotlinx.android.synthetic.main.add_event.view.*
 import kotlinx.android.synthetic.main.dialog_add_event.view.*
 import java.util.*
 
+
 class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment(), EventProvider {
 
     lateinit var eventProvider: EventProvider
     //val adapter = EventAdapter(ArrayList())
     var editPosition = -1
-    val transactionFragment = TransactionFragment(adapter)
+    var transactionFragment = TransactionFragment(adapter)
     private val date = Date()
     val eventRef = FirebaseFirestore
         .getInstance()
         .collection("events")
+
+//    private var listener: OnSelectedListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +50,7 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
             val latestEvent = adapter.getLatestDateEvent()
             val newDate = MyEvent(0, "", true)
             val newEvent = MyEvent(amount.toInt(), user_comment, false, !toggle_button.isChecked)
-            newEvent.category = category_textview.text.toString()
+            newEvent.category = category_button.text.toString()
             if(newDate.title == latestEvent.title){
                 latestEvent.events.add(newEvent)
                 if(latestEvent.isExpanded)
@@ -82,7 +93,7 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
             if(toggle_button.isChecked){
                 newEvent.isExpense = false
             }
-            newEvent.category = category_textview.text.toString()
+            newEvent.category = category_button.text.toString()
             val parentEvent = adapter.events[parentPosition]
             parentEvent.events[parentEvent.events.size - 1 - positionInEvents] = newEvent
             adapter.events[position] = newEvent
@@ -125,10 +136,30 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
             else
                 showEditConfirmDialog(editPosition, amount.text.toString(), user_comment.text.toString())
         }
+
+        myView.category_button.setOnClickListener{
+            Log.d("tag", "hello onclick")
+
+            val ft : FragmentTransaction = (this.activity as FragmentActivity).supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container, CategoryFragment())
+            ft.commit()
+
+//            val intent = Intent(context, MainActivity::class.java)
+//            context?.startActivity(intent)
+
+
+        }
+
         return myView
 
 
     }
+
+
+
+
+
+
 
 //    companion object {
 //        /**
