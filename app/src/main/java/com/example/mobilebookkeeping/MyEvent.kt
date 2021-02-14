@@ -13,7 +13,10 @@ data class MyEvent(
     var amount: Int = 0,
     var comment: String = "",
     var isDateEvent: Boolean = false,
-    var isExpense: Boolean = true
+    var isExpense: Boolean = true,
+    var category: String = "",
+    var income: Int = 0
+
 ) : Parcelable {
 
 
@@ -22,24 +25,8 @@ data class MyEvent(
     var title = date.toString().substring(0,10)
     var isExpanded = false
     var events =  ArrayList<MyEvent>()
-
     init {
-        if (isDateEvent){
-            var count = 0
-            for(e in events){
-                if(e.isExpense)
-                    count -= e.amount
-                else
-                    count += e.amount
-            }
-            if (count >= 0){
-                amount = count
-                isExpense = false
-            }else{
-                amount = count
-                isExpense = true
-            }
-        }
+
 
     }
     @get:Exclude
@@ -49,6 +36,20 @@ data class MyEvent(
             val event = snapshot.toObject(MyEvent::class.java)!!
             event.id = snapshot.id
             return event
+        }
+    }
+
+    fun updateAmount(){
+        amount = 0
+        income = 0
+        if (isDateEvent){
+            for(e in events){
+                if(e.isExpense)
+                    amount += e.amount
+                else{
+                    income += e.amount
+                }
+            }
         }
     }
 

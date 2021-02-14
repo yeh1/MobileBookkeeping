@@ -2,27 +2,24 @@ package com.example.mobilebookkeeping
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import com.example.mobilebookkeeping.EventAdapter
-import com.example.mobilebookkeeping.R
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.add_event.*
 import kotlinx.android.synthetic.main.add_event.view.*
 import kotlinx.android.synthetic.main.dialog_add_event.view.*
 import java.util.*
 
-class NewEventFragment(var adapter: EventAdapter) : Fragment(), EventProvider {
+class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment(), EventProvider {
 
     lateinit var eventProvider: EventProvider
     //val adapter = EventAdapter(ArrayList())
+    var editPosition = -1
     val transactionFragment = TransactionFragment(adapter)
     private val date = Date()
-    var mapOfEvent = HashMap<String, MyEvent>()
     val eventRef = FirebaseFirestore
         .getInstance()
         .collection("events")
@@ -39,35 +36,63 @@ class NewEventFragment(var adapter: EventAdapter) : Fragment(), EventProvider {
         view.confirm_message.setText("Amount:" + amount+ user_comment)
 
         builder?.setPositiveButton(android.R.string.ok){ _, _ ->
-            val newDateEvent = MyEvent(0, "", true)
-            //newDateEvent.title = date.toString().substring(0,10)
-            val newEvent = MyEvent(amount.toInt(), user_comment, false)
+            val latestEvent = adapter.getLatestDateEvent()
+            val newDate = MyEvent(0, "", true)
+            val newEvent = MyEvent(amount.toInt(), user_comment, false, !toggle_button.isChecked)
+            newEvent.category = category_textview.text.toString()
+            if(newDate.title == latestEvent.title){
+                latestEvent.events.add(newEvent)
+                if(latestEvent.isExpanded)
+                    adapter.events.add(1, newEvent)
+
+                eventRef.document(latestEvent.id).update("events", latestEvent.events)
+                adapter.notifyDataSetChanged()
+                latestEvent.updateAmount()
+            }else{
+                newDate.events.add(newEvent)
+                adapter.add(newDate)
+                //adapter.notifyDataSetChanged()
+            }
             if(toggle_button.isChecked){
                 newEvent.isExpense = false
             }
-           // Log.d("myTag","no q: " + eventRef.)
-
-            if(mapOfEvent.containsKey(date.toString().substring(0,10))){
-                mapOfEvent.get(date.toString().substring(0,10))?.events?.add(newEvent)
-                Log.d("myTag","equal:"+ mapOfEvent.get(date.toString().substring(0,10))?.events?.toString())
-
-            }else{
-                //val newEvent = MyEvent(amount.toInt(), user_comment, false)
-                mapOfEvent.put(date.toString().substring(0,10),newEvent)
-                //adapter.addNewEvent(newEvent)
-                mapOfEvent.get(date.toString().substring(0,10))?.events?.add(newEvent)
-                Log.d("myTag","no q: " )
-            }
-
-            eventProvider.sendEvents(newDateEvent)
         }
-
         builder?.setNegativeButton(android.R.string.cancel, null)
         builder?.create()?.show()
     }
 
-    fun addNewEvent(){
+    private fun showEditConfirmDialog(position: Int, amount: String, user_comment: String){
+        val builder = context?.let { AlertDialog.Builder(it) }
+        builder?.setTitle(R.string.add_dialog_confirm)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_event, null, false)
+        builder?.setView(view)
+        view.confirm_message.setText("Amount:" + amount+ user_comment)
+        var positionInEvents = -1
+        var parentPosition = 0
+        for(i in 0.. position){
+            positionInEvents++
+            if(adapter.events[i].isDateEvent){
+                positionInEvents = -1
+                parentPosition = i
+            }
+        }
 
+        builder?.setPositiveButton(android.R.string.ok){ _, _ ->
+            val newEvent = MyEvent(amount.toInt(), user_comment, false, !toggle_button.isChecked)
+            if(toggle_button.isChecked){
+                newEvent.isExpense = false
+            }
+            newEvent.category = category_textview.text.toString()
+            val parentEvent = adapter.events[parentPosition]
+            parentEvent.events[parentEvent.events.size - 1 - positionInEvents] = newEvent
+            adapter.events[position] = newEvent
+            parentEvent.id.let { eventRef.document(it) }
+                .update("events", parentEvent.events)
+            parentEvent.isExpanded = true
+            parentEvent.updateAmount()
+        }
+        builder?.setNegativeButton(android.R.string.cancel, null)
+        builder?.create()?.show()
     }
 
     override fun onAttach(context: Context) {
@@ -87,8 +112,18 @@ class NewEventFragment(var adapter: EventAdapter) : Fragment(), EventProvider {
         // Inflate the layout for this fragment
 
         val myView = inflater.inflate(R.layout.add_event, container, false)
+        if(isNew){
+            myView.add_event_title.text = "Creating New Event"
+        }else{
+            myView.add_event_title.text = "Editing Event"
+            myView.amount.hint = adapter.events[editPosition].amount.toString()
+            myView.user_comment.hint = adapter.events[editPosition].comment
+        }
         myView.done_button.setOnClickListener {
-            showConfirmDialog(myView, amount.text.toString(), user_comment.text.toString())
+            if(isNew)
+                showConfirmDialog(myView, amount.text.toString(), user_comment.text.toString())
+            else
+                showEditConfirmDialog(editPosition, amount.text.toString(), user_comment.text.toString())
         }
         return myView
 

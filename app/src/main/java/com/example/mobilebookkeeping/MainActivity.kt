@@ -7,14 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
-import com.example.mobilebookkeeping.DashboardFragment
-import com.example.mobilebookkeeping.EventAdapter
-import com.example.mobilebookkeeping.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.content_main.*
 
 
@@ -23,15 +16,15 @@ class MainActivity : AppCompatActivity() {
     private val adapter = EventAdapter(ArrayList())
     private val dashboardFragment = DashboardFragment()
     private val profileFragment = ProfileFragment()
-    private val addFragment = NewEventFragment(adapter)
+    private val addFragment = NewEventFragment(adapter, true)
     private val transactionFragment = addFragment.transactionFragment
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         var switchTo : Fragment? = null
+        adapter.transFragment = transactionFragment
         transactionFragment.adapter = adapter
 
 
@@ -45,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                     switchTo = profileFragment
                 }
                 R.id.navigation_transaction -> {
+                    adapter.notifyDataSetChanged()
                     switchTo = transactionFragment
                 }
             }

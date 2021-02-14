@@ -2,7 +2,6 @@ package com.example.mobilebookkeeping
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobilebookkeeping.EventAdapter
-import com.example.mobilebookkeeping.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,6 +40,10 @@ class TransactionFragment(var adapter: EventAdapter?) : Fragment(), EventProvide
     ): View? {
         // Inflate the layout for this fragment
 
+        for(e in adapter!!.events){
+            if(e.isDateEvent)
+                e.updateAmount()
+        }
         val recyclerView = inflater.inflate(R.layout.fragment_transaction, container, false) as RecyclerView
         //adapter = events?.let { EventAdapter(it) }
         recyclerView.adapter = adapter
@@ -53,8 +54,7 @@ class TransactionFragment(var adapter: EventAdapter?) : Fragment(), EventProvide
     }
 
     fun setEventsTo(event: MyEvent){
-        this.events?.add(event)
-        Log.d("myTag","fragment.events: " +  this.events?.size.toString())
+        this.events?.add(0, event)
     }
 
     override fun onAttach(context: Context) {

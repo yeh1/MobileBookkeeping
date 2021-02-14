@@ -3,8 +3,9 @@ package com.example.mobilebookkeeping
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobilebookkeeping.MyEvent
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,7 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot
 
 class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventViewHolder>() {
 
-    //var questions: ArrayList<MathFact> = ArrayList<MathFact>()
+    var transFragment = TransactionFragment(this)
 
 
     private lateinit var removedEvent: MyEvent
@@ -23,14 +24,13 @@ class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventV
         .collection("events")
 
     init {
-        eventRef.addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+        eventRef.orderBy("date").addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
             for (docChange in snapshot!!.documentChanges) {
                 val event = MyEvent.fromSnapshot(docChange.document)
                 when (docChange.type) {
                     DocumentChange.Type.ADDED -> {
                         events.add(0, event)
                         notifyItemInserted(0)
-                        Log.d("myTag","adapter: " +  this.events?.size.toString())
                     }
                     DocumentChange.Type.REMOVED -> {
                         val pos = events.indexOfFirst { event.id == it.id }
@@ -63,42 +63,78 @@ class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventV
     }
 
     fun removeItem(viewHolder: RecyclerView.ViewHolder) {
-        removedEvent = events[viewHolder.adapterPosition]
-        events.remove(removedEvent)
-        notifyItemRemoved(viewHolder.adapterPosition)
-            Snackbar.make(viewHolder.itemView," + ", Snackbar.LENGTH_LONG).setAction("REVIEW LATER") {
-                //reviewMathFacts.add(removedEvent)
-            }.show()
-        eventRef.document(events[viewHolder.adapterPosition].id).delete()
+        if(!events[viewHolder.adapterPosition].isDateEvent) {
+            var positionInEvents = -1
+            var parentPosition = 0
+            for (i in 0..viewHolder.adapterPosition) {
+                positionInEvents++
+                if (events[i].isDateEvent) {
+                    positionInEvents = -1
+                    parentPosition = i
+                }
+            }
+            removedEvent = events[viewHolder.adapterPosition]
+            val parentEvent = events[parentPosition]
+            parentEvent.events.remove(removedEvent)
+            events.remove(removedEvent)
+            notifyItemRemoved(viewHolder.adapterPosition)
+            Snackbar.make(viewHolder.itemView, " + ", Snackbar.LENGTH_LONG)
+                .setAction("REVIEW LATER") {
+                    //reviewMathFacts.add(removedEvent)
+                }.show()
+            parentEvent.id.let { eventRef.document(it) }
+                .update("events", parentEvent.events)
+            parentEvent.updateAmount()
+        }
     }
 
-//    fun removeItemAt(position: Int) {
-//        removedEvent = events[position]
-//        events.remove(removedEvent)
-//        notifyItemRemoved(viewHolder.adapterPosition)
-//        Snackbar.make(viewHolder.itemView," + ", Snackbar.LENGTH_LONG).setAction("REVIEW LATER") {
-//            //reviewMathFacts.add(removedEvent)
-//        }.show()
-//    }
+
 
     fun collapseEvent(position: Int){
+        Log.d("myTag", events[position].events.size.toString())
         events.removeAll(events[position].events)
         events[position].isExpanded = false
+        //notifyDataSetChanged()
     }
 
     fun expandEvent(position: Int){
         for(e in events[position].events){
             events.add(position+1, e)
+            notifyItemInserted(position+1)
         }
         events[position].isExpanded = true
-        Log.d("myTag", events[position].events.toString());
+        events[position].id.let { eventRef.document(it) }
+            .update("isExpanded", true)
+        Log.d("myTag", events[position].isExpanded.toString())
     }
 
     fun toggleEvent(position: Int){
-        if(events[position].isExpanded)
-            collapseEvent(position)
-        else
-            expandEvent(position)
+        if(events[position].isDateEvent){
+            if(events[position].isExpanded) {
+                collapseEvent(position)
+            }
+            else {
+                collapseEvent(position)
+                expandEvent(position)
+            }
+        }else{
+            val nextFrag = NewEventFragment(this, false)
+            nextFrag.editPosition = position
+            val ft : FragmentTransaction = (transFragment.activity as FragmentActivity).supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container,nextFrag)
+            ft.commit()
+        }
+    }
+
+    fun getLatestDateEvent(): MyEvent{
+        var latest = events[0]
+        for(e in events){
+            if (e.isDateEvent){
+                if(e.date.after(latest.date))
+                    latest = e
+            }
+        }
+        return latest
     }
 
 
@@ -116,8 +152,9 @@ class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventV
     }
 
     fun add(myEvent: MyEvent){
-        events.add(myEvent)
+        //events.add(0, myEvent)
         eventRef.add(myEvent)
+        eventRef.orderBy("title")
     }
 
 }
