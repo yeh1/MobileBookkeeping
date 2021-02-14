@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1052806489634",
+    "project_id": "mobb-52906",
+    "storage_bucket": "mobb-52906.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052806489634:android:9e7c7a4d170a1d1cf78c7b",
+        "android_client_info": {
+          "package_name": "com.example.mob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052806489634-916ohd6ntit3g7l1ubveioekj4e1dns4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw-_mnos58bDjnOf1u4MmjVT79ZYgsT1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052806489634-916ohd6ntit3g7l1ubveioekj4e1dns4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052806489634:android:75d0c89b46b5e711f78c7b",
+        "android_client_info": {
+          "package_name": "com.example.mobilebookkeeping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052806489634-916ohd6ntit3g7l1ubveioekj4e1dns4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw-_mnos58bDjnOf1u4MmjVT79ZYgsT1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052806489634-916ohd6ntit3g7l1ubveioekj4e1dns4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
