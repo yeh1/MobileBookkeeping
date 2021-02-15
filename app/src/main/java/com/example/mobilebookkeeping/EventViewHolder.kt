@@ -42,7 +42,7 @@ class EventViewHolder(itemView: View, adapter: EventAdapter) : RecyclerView.View
         else {
             detailRowView.setCardBackgroundColor(Color.parseColor("#FFFFFF"))
             icon.setImageResource(R.drawable.shopping)
-            titleTextView.text = event.category
+            titleTextView.text = event.category.name
         }
         if(event.isExpense) {
             expenseTextView.text = "$" + event.amount.toString()

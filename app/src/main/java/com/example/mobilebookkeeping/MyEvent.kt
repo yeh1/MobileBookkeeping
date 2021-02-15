@@ -1,10 +1,12 @@
 package com.example.mobilebookkeeping
 
 import android.os.Parcelable
+import com.example.mobilebookkeeping.category.Category
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import java.util.*
 
 
@@ -14,7 +16,7 @@ data class MyEvent(
     var comment: String = "",
     var isDateEvent: Boolean = false,
     var isExpense: Boolean = true,
-    var category: String = "",
+    var category: @RawValue Category = Category(),
     var income: Int = 0
 
 ) : Parcelable {
@@ -22,6 +24,8 @@ data class MyEvent(
 
     @IgnoredOnParcel
     val date = Date()
+    @IgnoredOnParcel
+
     var title = date.toString().substring(0,10)
     var isExpanded = false
     var events =  ArrayList<MyEvent>()

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.Exclude
 
 class Category {
     var name: String = ""
-
+    var amount: Float = 0.0f
     @get:Exclude
     var id = ""
     companion object {

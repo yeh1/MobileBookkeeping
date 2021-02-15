@@ -50,7 +50,9 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
             val latestEvent = adapter.getLatestDateEvent()
             val newDate = MyEvent(0, "", true)
             val newEvent = MyEvent(amount.toInt(), user_comment, false, !toggle_button.isChecked)
-            newEvent.category = category_button.text.toString()
+            val cate = Category()
+            cate.name = category_button.text.toString()
+            newEvent.category = cate
             if(newDate.title == latestEvent.title){
                 latestEvent.events.add(newEvent)
                 if(latestEvent.isExpanded)
@@ -93,7 +95,10 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
             if(toggle_button.isChecked){
                 newEvent.isExpense = false
             }
-            newEvent.category = category_button.text.toString()
+            val cate = Category()
+            cate.name = category_button.text.toString()
+            newEvent.category = cate
+
             val parentEvent = adapter.events[parentPosition]
             parentEvent.events[parentEvent.events.size - 1 - positionInEvents] = newEvent
             adapter.events[position] = newEvent

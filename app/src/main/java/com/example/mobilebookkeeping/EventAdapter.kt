@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobilebookkeeping.category.Category
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot
 class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventViewHolder>() {
 
     var transFragment = TransactionFragment(this)
+    var category: Category = Category()
 
 
     private lateinit var removedEvent: MyEvent
