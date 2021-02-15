@@ -1,5 +1,4 @@
-package com.example.mobilebookkeeping
-
+package com.example.mob
 
 
 interface EventProvider {

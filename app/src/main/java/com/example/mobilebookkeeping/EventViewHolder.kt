@@ -1,10 +1,12 @@
-package com.example.mobilebookkeeping
+package com.example.mob
 
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobilebookkeeping.R
 import kotlinx.android.synthetic.main.detail_row_view.view.*
 
 
@@ -42,7 +44,7 @@ class EventViewHolder(itemView: View, adapter: EventAdapter) : RecyclerView.View
         else {
             detailRowView.setCardBackgroundColor(Color.parseColor("#FFFFFF"))
             icon.setImageResource(R.drawable.shopping)
-            titleTextView.text = event.category.name
+            titleTextView.text = event.category
         }
         if(event.isExpense) {
             expenseTextView.text = "$" + event.amount.toString()
@@ -55,6 +57,16 @@ class EventViewHolder(itemView: View, adapter: EventAdapter) : RecyclerView.View
         if(event.isDateEvent){
             expenseTextView.text = "$" + event.amount.toString()
             incomeTextView.text = "$" + event.income.toString()
+        }
+        when (event.category) {
+            "Food" -> icon.setImageResource(R.drawable.meal)
+            "Activity" -> icon.setImageResource(R.drawable.movie)
+            "Traveling" -> icon.setImageResource(R.drawable.activity)
+            "Clothing" -> icon.setImageResource(R.drawable.clothing)
+            "Housing" -> icon.setImageResource(R.drawable.housing)
+            "Tuition" -> icon.setImageResource(R.drawable.tuition)
+            else -> { // Note the block
+            }
         }
 
         commentTextView.text = event.comment

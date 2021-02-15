@@ -18,5 +18,14 @@
     <string name="title_new_event">Creating New Event</string>
     <string name="confirm_textview">Confirm</string>
     <string name="add_dialog_confirm">Confirming info</string>
+    <string name="add_category">Add a category</string>
+    <string name="add_category_hint">Enter a category name</string>
+    <string name="comment_hint">Leave comment here</string>
+    <string name="add_comment">Comment:</string>
+    <string name="income">Income</string>
+    <string name="expense">Expense</string>
+    <string name="amount_hint">0</string>
+    <string name="enter_the_amount">Enter the amount:</string>
+    <string name="select">Select</string>
 
 </resources>

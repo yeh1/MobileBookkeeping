@@ -12,6 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="android:fontFamily">@font/ubuntumono_bold</item>
+        <item name="fontFamily">@font/ubuntumono_bold</item>
+
+
     </style>
 
     <style name="Theme.MobileBookkeeping.NoActionBar" >
@@ -19,9 +24,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
     <style name="Theme.Mob.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Mob.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="myTheme" parent="Theme.AppCompat" />
-
 </resources>

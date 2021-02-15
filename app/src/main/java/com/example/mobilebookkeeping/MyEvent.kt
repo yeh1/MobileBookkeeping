@@ -1,4 +1,4 @@
-package com.example.mobilebookkeeping
+package com.example.mob
 
 import android.os.Parcelable
 import com.example.mobilebookkeeping.category.Category
@@ -15,11 +15,9 @@ data class MyEvent(
     var amount: Int = 0,
     var comment: String = "",
     var isDateEvent: Boolean = false,
-    var uid: String = "",
     var isExpense: Boolean = true,
-    var category: @RawValue Category = Category(),
+    var category: String = "",
     var income: Int = 0
-
 
 ) : Parcelable {
 

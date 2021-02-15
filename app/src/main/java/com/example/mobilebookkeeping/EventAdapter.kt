@@ -1,11 +1,14 @@
-package com.example.mobilebookkeeping
+package com.example.mob
 
+import android.app.PendingIntent.getActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobilebookkeeping.R
 import com.example.mobilebookkeeping.category.Category
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentChange
@@ -14,11 +17,13 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 
 
-class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.Adapter<EventViewHolder>() {
+class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventViewHolder>() {
 
+    var category: String = ""
     var transFragment = TransactionFragment(this)
-    var category: Category = Category()
-    var uId: String
+    var name: String = ""
+    var eventAdapterEditPosition = 0
+    var isNew = false
 
 
     private lateinit var removedEvent: MyEvent
@@ -26,12 +31,8 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
         .getInstance()
         .collection("events")
 
-
     init {
-        uId = uid
-//        Log.d("Tag", "UID: is"+ uId) .orderBy("date")
-        eventRef.orderBy("date")
-        eventRef.whereEqualTo("uid",uId).addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+        eventRef.orderBy("date").addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
             for (docChange in snapshot!!.documentChanges) {
                 val event = MyEvent.fromSnapshot(docChange.document)
                 when (docChange.type) {
@@ -53,11 +54,11 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
             }
             notifyDataSetChanged()
         }
+
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, index: Int): EventViewHolder {
-
         val view = LayoutInflater.from(parent.context).inflate(R.layout.detail_row_view, parent, false)
         return EventViewHolder(view, this)
     }
@@ -99,10 +100,10 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
 
 
     fun collapseEvent(position: Int){
-        Log.d("myTag", events[position].events.size.toString())
+
         events.removeAll(events[position].events)
         events[position].isExpanded = false
-        //notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
     fun expandEvent(position: Int){
@@ -110,10 +111,13 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
             events.add(position+1, e)
             notifyItemInserted(position+1)
         }
+        Log.d("myTag", events.size.toString())
         events[position].isExpanded = true
-        events[position].id.let { eventRef.document(it) }
-            .update("isExpanded", true)
-        Log.d("myTag", events[position].isExpanded.toString())
+//        events[position].id.let { eventRef.document(it) }
+//            .update("isExpanded", true)
+//        events[position].id.let { eventRef.document(it) }
+//            .update("expanded", true)
+        Log.d("myTag", events[position].events.size.toString())
     }
 
     fun toggleEvent(position: Int){
@@ -127,21 +131,16 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
             }
         }else{
             val nextFrag = NewEventFragment(this, false)
+            name = events[position].category
             nextFrag.editPosition = position
             val ft : FragmentTransaction = (transFragment.activity as FragmentActivity).supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragment_container,nextFrag)
             ft.commit()
         }
+        //Log.d("myTag", "food:" + getAmountForCategory("Activity").toString())
     }
 
     fun getLatestDateEvent(): MyEvent{
-        if(events.size < 1){
-            val event = MyEvent()
-            event.title = "no"
-            return event
-
-        }
-
         var latest = events[0]
         for(e in events){
             if (e.isDateEvent){
@@ -150,6 +149,38 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
             }
         }
         return latest
+    }
+
+
+    fun getAllCategory(): ArrayList<String>{
+        val list = ArrayList<String>()
+        val allEvents = ArrayList<MyEvent>()
+        for(e in this.events!!){
+            if(e.isDateEvent){
+                allEvents.addAll(e.events)
+            }
+        }
+        for (e in allEvents){
+            if(!list.contains(e.category))
+                list.add(e.category)
+        }
+        return list
+    }
+
+    fun getAmountForCategory(categoryName: String) : Int{
+        val allEvents = ArrayList<MyEvent>()
+        var amount = 0
+        for(e in this.events!!){
+            if(e.isDateEvent){
+                allEvents.addAll(e.events)
+            }
+        }
+        Log.d("myTag", allEvents.size.toString() +"?")
+        for(e in allEvents){
+            if(e.category == categoryName)
+                amount += e.amount
+        }
+        return amount
     }
 
 

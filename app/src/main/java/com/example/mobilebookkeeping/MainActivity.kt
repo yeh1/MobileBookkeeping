@@ -1,65 +1,71 @@
-package com.example.mobilebookkeeping
+package com.example.mob
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
-
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.ImageView
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.mobilebookkeeping.PieChartActivity
+import com.example.mobilebookkeeping.R
 import com.example.mobilebookkeeping.category.Category
-import com.example.mobilebookkeeping.category.CategoryFragment
-import com.firebase.ui.auth.AuthUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedListener  {
+class MainActivity : AppCompatActivity() {
 
+    private val adapter = EventAdapter(ArrayList())
     private val dashboardFragment = DashboardFragment()
     private val profileFragment = ProfileFragment()
-    lateinit var addFragment : NewEventFragment
-    lateinit var transactionFragment : TransactionFragment
-    lateinit var adapter : EventAdapter
+    private val addFragment = NewEventFragment(adapter, true)
+    private val transactionFragment = addFragment.transactionFragment
 
+    val categoryRef = FirebaseFirestore
+            .getInstance()
+            .collection("category")
 
-    private val RC_SIGN_IN = 1
-    val auth = FirebaseAuth.getInstance()
-    lateinit var authListener: FirebaseAuth.AuthStateListener
-    lateinit var swtichBar : View
-    lateinit var addButton :FloatingActionButton
+    init {
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-
-        initializeListeners()
-
-    }
-
-    fun  setListeners(){
-        var switchTo : Fragment? = null
+        var switchTo : Fragment? = transactionFragment
         adapter.transFragment = transactionFragment
         transactionFragment.adapter = adapter
-        swtichBar = findViewById<View>(R.id.nav_view)
-        addButton = findViewById<FloatingActionButton>(R.id.fab)
+        val ft = supportFragmentManager.beginTransaction()
+        Log.d("myTag", adapter.events.size.toString())
+        Log.d("myTag", transactionFragment.adapter!!.events.size.toString())
+
+        ft.replace(R.id.fragment_container, switchTo!!)
+        ft.commit()
+
+
 
         nav_view.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
             when (item.itemId) {
                 R.id.navigation_dashboard -> {
+                    val allCategory = adapter.getAllCategory()
+                    val amounts = ArrayList<Int>()
                     val I = Intent(this@MainActivity, PieChartActivity::class.java)
+                    for(category in allCategory){
+                        amounts.add(adapter.getAmountForCategory(category))
+                    }
+                    I.putStringArrayListExtra("allCategory", allCategory)
+                    I.putIntegerArrayListExtra("amounts", amounts)
                     startActivity(I)
+
+
                 }
                 R.id.navigation_profile -> {
                     switchTo = profileFragment
@@ -76,80 +82,15 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
             }
             true
         })
-        addButton.setOnClickListener { view ->
+
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             val ft = supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragment_container, addFragment)
             ft.commit()
         }
 
+
     }
-
-    override fun onStart() {
-        super.onStart()
-        auth.addAuthStateListener(authListener)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        auth.removeAuthStateListener(authListener)
-    }
-
-
-    private fun initializeListeners() {
-        // TODO: Create an AuthStateListener that passes the UID
-        // to the MovieQuoteFragment if the user is logged in
-        // and goes back to the Splash fragment otherwise.
-        // See https://firebase.google.com/docs/auth/users#the_user_lifecycle
-        authListener = FirebaseAuth.AuthStateListener { auth ->
-            val user = auth.currentUser
-
-            Log.d("Tag", "In auth listener, User: $user")
-            if (user != null) {
-//                Log.d("Tag", "UID: ${user.uid}")
-//                Log.d("Tag", "Name: ${user.displayName}")
-//                Log.d("Tag", "Email: ${user.email}")
-//                Log.d("Tag", "Photo: ${user.photoUrl}")
-//                Log.d("Tag", "Phone: ${user.phoneNumber}")
-
-                adapter = EventAdapter(ArrayList(), user.uid)
-                addFragment = NewEventFragment.newInstance(adapter, true, user.uid)
-                transactionFragment = addFragment.transactionFragment
-                setListeners()
-
-                switchToTransactionFragment(transactionFragment)
-
-            } else {
-
-                switchToLoginFragment()
-            }
-        }
-    }
-
-    fun switchToLoginFragment() {
-        var addButton = findViewById<FloatingActionButton>(R.id.fab)
-        swtichBar.setVisibility(View.INVISIBLE);
-        addButton.setVisibility(View.INVISIBLE);
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, LoginFragment())
-        ft.commit()
-    }
-
-    private fun switchToTransactionFragment(fragment: TransactionFragment) {
-        swtichBar.setVisibility(View.VISIBLE)
-        addButton.setVisibility(View.VISIBLE)
-
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, fragment)
-        ft.commit()
-//        var picFragment  =  PicFragment()
-//        val ft = supportFragmentManager.beginTransaction()
-//        ft.replace(R.id.fragment_container, picFragment)
-//        ft.commit()
-    }
-
-
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -158,41 +99,32 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-//            R.id.delete -> {
-//
-//                true
-//            }
+            R.id.action_settings -> {
+                showAddCategoryDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onLoginButtonPressed() {
-        launchLoginUI()
+    fun addNewCategory(cate: Category){
+        categoryRef.add(cate)
     }
 
-    private fun launchLoginUI() {
-        // TODO: Build a login intent and startActivityForResult(intent, ...)
-        // For details, see https://firebase.google.com/docs/auth/android/firebaseui#sign_in
-        val providers = arrayListOf(
-                AuthUI.IdpConfig.EmailBuilder().build(),
-                AuthUI.IdpConfig.PhoneBuilder().build(),
-                AuthUI.IdpConfig.GoogleBuilder().build()
-        )
+    private fun showAddCategoryDialog(){
+        val builder =AlertDialog.Builder(this)
+        builder.setTitle(R.string.add_category)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_add_category, null, false)
+        builder.setView(view)
 
-        val loginIntent = AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_baseline_add_24)
-                .build()
 
-        startActivityForResult(loginIntent, RC_SIGN_IN)
+        builder.setPositiveButton(android.R.string.ok){ _, _ ->
+            val category = Category()
+            category.name = view.category_name.text.toString()
+            addNewCategory(category)
+        }
+        builder.setNegativeButton(android.R.string.cancel, null)
+        builder.create().show()
     }
-
-//    override fun OnSelected(category: Category) {
-////        setContentView(R.layout.fragment_category)
-//        val ft = supportFragmentManager.beginTransaction()
-//        ft.replace(R.id.fragment_container, CategoryFragment())
-//        ft.commit()
-//    }
 
 }

@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob.EventAdapter
+import com.example.mob.MyEvent
 import com.example.mobilebookkeeping.R
 import com.google.firebase.firestore.FirebaseFirestore
 
-class CategoryFragment : Fragment(){
+class CategoryFragment(var eventAdapter: EventAdapter) : Fragment(){
 
     lateinit var  recyclerView: RecyclerView
+    var name : String? = null
     val categoryRef = FirebaseFirestore
         .getInstance()
         .collection("category")
@@ -21,11 +24,11 @@ class CategoryFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        val adapter = CategoryAdapter(context, eventAdapter)
+        adapter.myActivity = this.requireActivity()
         recyclerView = inflater.inflate(R.layout.fragment_category, container, false) as RecyclerView
-//        Log.d("tag","hello get view")
-        val adapter = CategoryAdapter(context)
         recyclerView.adapter = adapter
+        this.name = adapter.name
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
 
@@ -35,6 +38,9 @@ class CategoryFragment : Fragment(){
         return recyclerView
     }
 
+//    fun setNameTo(name : String){
+//        this.name = name
+//    }
 
 
 }
