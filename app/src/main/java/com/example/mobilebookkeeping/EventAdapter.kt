@@ -14,10 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
 
 
-class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventViewHolder>() {
+class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.Adapter<EventViewHolder>() {
 
     var transFragment = TransactionFragment(this)
     var category: Category = Category()
+    var uId: String
 
 
     private lateinit var removedEvent: MyEvent
@@ -25,8 +26,12 @@ class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventV
         .getInstance()
         .collection("events")
 
+
     init {
-        eventRef.orderBy("date").addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+        uId = uid
+//        Log.d("Tag", "UID: is"+ uId) .orderBy("date")
+        eventRef.orderBy("date")
+        eventRef.whereEqualTo("uid",uId).addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
             for (docChange in snapshot!!.documentChanges) {
                 val event = MyEvent.fromSnapshot(docChange.document)
                 when (docChange.type) {
@@ -52,6 +57,7 @@ class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventV
 
 
     override fun onCreateViewHolder(parent: ViewGroup, index: Int): EventViewHolder {
+
         val view = LayoutInflater.from(parent.context).inflate(R.layout.detail_row_view, parent, false)
         return EventViewHolder(view, this)
     }
@@ -129,6 +135,13 @@ class EventAdapter(var events: ArrayList<MyEvent>) : RecyclerView.Adapter<EventV
     }
 
     fun getLatestDateEvent(): MyEvent{
+        if(events.size < 1){
+            val event = MyEvent()
+            event.title = "no"
+            return event
+
+        }
+
         var latest = events[0]
         for(e in events){
             if (e.isDateEvent){

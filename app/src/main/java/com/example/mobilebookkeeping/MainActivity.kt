@@ -22,11 +22,11 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedListener  {
 
-    private val adapter = EventAdapter(ArrayList())
     private val dashboardFragment = DashboardFragment()
     private val profileFragment = ProfileFragment()
-    private val addFragment = NewEventFragment(adapter, true)
-    private val transactionFragment = addFragment.transactionFragment
+    lateinit var addFragment : NewEventFragment
+    lateinit var transactionFragment : TransactionFragment
+    lateinit var adapter : EventAdapter
 
 
     private val RC_SIGN_IN = 1
@@ -38,17 +38,20 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        initializeListeners()
+
+    }
+
+    fun  setListeners(){
         var switchTo : Fragment? = null
         adapter.transFragment = transactionFragment
         transactionFragment.adapter = adapter
-
-        initializeListeners()
         swtichBar = findViewById<View>(R.id.nav_view)
         addButton = findViewById<FloatingActionButton>(R.id.fab)
-
-
 
         nav_view.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
@@ -71,9 +74,6 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
             }
             true
         })
-
-
-
         addButton.setOnClickListener { view ->
             val ft = supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragment_container, addFragment)
@@ -103,14 +103,21 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
 
             Log.d("Tag", "In auth listener, User: $user")
             if (user != null) {
-                Log.d("Tag", "UID: ${user.uid}")
+//                Log.d("Tag", "UID: ${user.uid}")
 //                Log.d("Tag", "Name: ${user.displayName}")
 //                Log.d("Tag", "Email: ${user.email}")
 //                Log.d("Tag", "Photo: ${user.photoUrl}")
 //                Log.d("Tag", "Phone: ${user.phoneNumber}")
 
+                adapter = EventAdapter(ArrayList(), user.uid)
+                addFragment = NewEventFragment.newInstance(adapter, true, user.uid)
+                transactionFragment = addFragment.transactionFragment
+                setListeners()
+
                 switchToTransactionFragment(transactionFragment)
+
             } else {
+
                 switchToLoginFragment()
             }
         }

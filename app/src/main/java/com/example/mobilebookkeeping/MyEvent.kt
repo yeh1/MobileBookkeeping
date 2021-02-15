@@ -15,9 +15,11 @@ data class MyEvent(
     var amount: Int = 0,
     var comment: String = "",
     var isDateEvent: Boolean = false,
+    var uid: String = "",
     var isExpense: Boolean = true,
     var category: @RawValue Category = Category(),
     var income: Int = 0
+
 
 ) : Parcelable {
 

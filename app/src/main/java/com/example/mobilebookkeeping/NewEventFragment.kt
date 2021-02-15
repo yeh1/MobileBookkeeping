@@ -31,16 +31,32 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
     val eventRef = FirebaseFirestore
         .getInstance()
         .collection("events")
+    private val ARG_UID = "UID"
+    private var uid: String? = null
 
-//    private var listener: OnSelectedListener? = null
 
+
+    companion object {
+        @JvmStatic
+        fun newInstance( adapter: EventAdapter,  isNew: Boolean, uid: String) =
+            NewEventFragment(adapter, isNew ).apply {
+                arguments = Bundle().apply {
+                    putString(ARG_UID, uid)
+                }
+            }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            uid = it.getString(ARG_UID)
+        }
     }
     private fun showConfirmDialog(view: View, amount: String, user_comment: String){
         val builder = context?.let { AlertDialog.Builder(it) }
         builder?.setTitle(R.string.add_dialog_confirm)
+        Log.e("tag", "hello" + uid)
+
 
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_event, null, false)
         builder?.setView(view)
@@ -48,8 +64,8 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
 
         builder?.setPositiveButton(android.R.string.ok){ _, _ ->
             val latestEvent = adapter.getLatestDateEvent()
-            val newDate = MyEvent(0, "", true)
-            val newEvent = MyEvent(amount.toInt(), user_comment, false, !toggle_button.isChecked)
+            val newDate = MyEvent(0, "", true, uid!!)
+            val newEvent = MyEvent(amount.toInt(), user_comment, false, uid!!, !toggle_button.isChecked)
             val cate = Category()
             cate.name = category_button.text.toString()
             newEvent.category = cate
@@ -91,7 +107,7 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
         }
 
         builder?.setPositiveButton(android.R.string.ok){ _, _ ->
-            val newEvent = MyEvent(amount.toInt(), user_comment, false, !toggle_button.isChecked)
+            val newEvent = MyEvent(amount.toInt(), user_comment, false, uid!! , !toggle_button.isChecked)
             if(toggle_button.isChecked){
                 newEvent.isExpense = false
             }
