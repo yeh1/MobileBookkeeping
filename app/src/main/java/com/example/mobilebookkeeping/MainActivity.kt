@@ -1,5 +1,6 @@
 package com.example.mobilebookkeeping
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -57,7 +58,8 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
 
             when (item.itemId) {
                 R.id.navigation_dashboard -> {
-                    switchTo = dashboardFragment
+                    val I = Intent(this@MainActivity, PieChartActivity::class.java)
+                    startActivity(I)
                 }
                 R.id.navigation_profile -> {
                     switchTo = profileFragment
