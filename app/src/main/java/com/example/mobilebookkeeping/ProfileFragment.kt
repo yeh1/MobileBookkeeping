@@ -28,7 +28,8 @@ import java.util.*
 class ProfileFragment : Fragment() {
     private val ARG_UID = "UID"
     private var uid: String? = null
-//    lateinit var month: Int
+    var month: Int = 0
+
 
     companion object {
         @JvmStatic
@@ -70,10 +71,12 @@ class ProfileFragment : Fragment() {
             }
         }
 
+
         userRef.get().addOnSuccessListener { querySnapshot ->
             val user = querySnapshot.toObject(User::class.java)
             myView.username_text.text = user?.username
             budget_amount.text = "Budget Amount: $" + user?.budget
+            budget_remain.text = "Budget Remaining: $" + user?.budget
 
         }
 
@@ -130,30 +133,24 @@ class ProfileFragment : Fragment() {
                 10 -> month_text.text = "Nov"
                 11 -> month_text.text = "Dec"
             }
-        }
-        val monthRef = FirebaseFirestore
-            .getInstance()
-            .collection("events")
-            .whereEqualTo("month",month_text.text.toString())
 
+            val monthRef = FirebaseFirestore
+                .getInstance()
+                .collection("events")
+                .whereEqualTo("month",month_text.text.toString())
+                .whereEqualTo("uid",uid)
 
-//        val userRef = FirebaseFirestore
-//            .getInstance()
-//            .collection("user")
-//            .document(uid!!)
-//        userRef.get().addOnSuccessListener { querySnapshot ->
-//            val user = querySnapshot.toObject(User::class.java)
-//            val budget = user.budget.toInt()
-//        }
-
-        val budgetAmount = budget_amount.text.toString().substring(16, budget_amount.text.toString().length ).toInt()
-        monthRef.get().addOnSuccessListener { querySnapshot ->
-            val user = querySnapshot.toObjects(MyEvent::class.java)
-            var monthAmount = 0
-            user.forEach{
-                monthAmount += it.amount
+            val budgetAmount = budget_amount.text.toString().substring(16, budget_amount.text.toString().length ).toInt()
+            monthRef.get().addOnSuccessListener { querySnapshot ->
+                val user = querySnapshot.toObjects(MyEvent::class.java)
+                var monthAmount = 0
+                user.forEach{
+                    monthAmount += it.amount
+                }
+                month = monthAmount
+                budget_remain.text = "Budget Remaining: $" + (budgetAmount - monthAmount)
             }
-            budget_remain.text = "Budget Remaining: $" + (budgetAmount - monthAmount)
+
         }
 
 
@@ -171,17 +168,11 @@ class ProfileFragment : Fragment() {
         val monthRef = FirebaseFirestore
             .getInstance()
             .collection("events")
-            .whereEqualTo("month","Feb")
+            .whereEqualTo("month",month_text.text.toString())
+            .whereEqualTo("uid",uid)
 
 
-        monthRef.get().addOnSuccessListener { querySnapshot ->
-            val user = querySnapshot.toObjects(MyEvent::class.java)
-            var monthAmount = 0
-            user.forEach{
-                monthAmount += it.amount
-            }
-            budget_remain.text = "Budget Remain: $" + monthAmount
-        }
+
 
 
         val view = LayoutInflater.from(context).inflate(R.layout.set_budget_view, null, false)
@@ -194,6 +185,17 @@ class ProfileFragment : Fragment() {
                 .document(uid!!)
             userRef.update("budget", view.buget_text.text.toString())
             budget_amount.text = "Budget Amount: $" + view.buget_text.text.toString()
+
+
+            monthRef.get().addOnSuccessListener { querySnapshot ->
+                val user = querySnapshot.toObjects(MyEvent::class.java)
+                var monthAmount = 0
+                user.forEach{
+                    monthAmount += it.amount
+                }
+                budget_remain.text = "Budget Remaining: $" + (view.buget_text.text.toString().toInt() - monthAmount)
+
+            }
 
         }
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->

@@ -232,9 +232,9 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
         // TODO: Build a login intent and startActivityForResult(intent, ...)
         // For details, see https://firebase.google.com/docs/auth/android/firebaseui#sign_in
         val providers = arrayListOf(
-                AuthUI.IdpConfig.EmailBuilder().build(),
-                AuthUI.IdpConfig.PhoneBuilder().build(),
-                AuthUI.IdpConfig.GoogleBuilder().build()
+                AuthUI.IdpConfig.EmailBuilder().build()
+//                AuthUI.IdpConfig.PhoneBuilder().build(),
+//                AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
         val loginIntent = AuthUI.getInstance()

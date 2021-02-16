@@ -101,7 +101,6 @@
             android:textStyle="bold"
             android:textColor="#8BC34A"
             android:layout_gravity="center_horizontal"
-            android:text="@string/budget_remain"
           />
 
 
