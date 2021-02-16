@@ -16,14 +16,22 @@
 
 
     <TextView
+        android:id="@+id/username_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="UserName"
         android:textSize="50dp"
         />
+    <Button
+        android:id="@+id/set_username_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Set the Username"/>
 
     <Button
+        android:id="@+id/sign_out_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -42,14 +50,36 @@
         android:orientation="vertical"
         android:background="@drawable/underline">
 
+
+
         <Button
+            android:id="@+id/buget_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="16dp"
             android:text="Set the Budeget"/>
 
+        <Button
+            android:id="@+id/month_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16dp"
+            android:text="Set the Month"/>
+
         <TextView
+            android:id="@+id/month_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:text="June"/>
+
+        <TextView
+            android:id="@+id/budget_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -61,6 +91,7 @@
             android:text="Buget Amount: $1000"/>
 
         <TextView
+            android:id="@+id/budget_remain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

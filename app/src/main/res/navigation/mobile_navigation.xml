@@ -7,20 +7,20 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.mobilebookkeeping.ProfileFragment"
+        android:name="com.example.mob.ProfileFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_transaction" >
+        tools:layout="@layout/transaction_recycler_view" >
     </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.mobilebookkeeping.DashboardFragment"
+        android:name="com.example.mob.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.mobilebookkeeping.TransactionFragment"
+        android:name="com.example.mob.TransactionFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_profile" />
 </navigation>
