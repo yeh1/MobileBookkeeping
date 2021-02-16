@@ -23,7 +23,7 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
     var name: String = ""
     var eventAdapterEditPosition = 0
     var isNew = false
-    lateinit var uID: String
+    var uID: String
 
 
     private lateinit var removedEvent: MyEvent
@@ -33,8 +33,9 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
 
     init {
         uID = uid
-        eventRef.orderBy("date")
-        eventRef.whereEqualTo("uid",uid).addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+//            .orderBy("date")
+        eventRef
+        .whereEqualTo("uid",uid ).addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
             for (docChange in snapshot!!.documentChanges) {
                 val event = MyEvent.fromSnapshot(docChange.document)
                 when (docChange.type) {
@@ -89,10 +90,6 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
             parentEvent.events.remove(removedEvent)
             events.remove(removedEvent)
             notifyItemRemoved(viewHolder.adapterPosition)
-            Snackbar.make(viewHolder.itemView, " + ", Snackbar.LENGTH_LONG)
-                .setAction("REVIEW LATER") {
-                    //reviewMathFacts.add(removedEvent)
-                }.show()
             parentEvent.id.let { eventRef.document(it) }
                 .update("events", parentEvent.events)
             parentEvent.updateAmount()
@@ -163,7 +160,7 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
     fun getAllCategory(): ArrayList<String>{
         val list = ArrayList<String>()
         val allEvents = ArrayList<MyEvent>()
-        for(e in this.events!!){
+        for(e in this.events){
             if(e.isDateEvent){
                 allEvents.addAll(e.events)
             }
@@ -178,7 +175,7 @@ class EventAdapter(var events: ArrayList<MyEvent>, uid: String) : RecyclerView.A
     fun getAmountForCategory(categoryName: String) : Int{
         val allEvents = ArrayList<MyEvent>()
         var amount = 0
-        for(e in this.events!!){
+        for(e in this.events){
             if(e.isDateEvent){
                 allEvents.addAll(e.events)
             }

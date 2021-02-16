@@ -102,10 +102,10 @@ class PieChartActivity: AppCompatActivity(){
             if(num < intArray[secondLargest])
                 list.add(num)
         }
-        Log.d("myTag", intArray.toString())
-        Log.d("myTag", list.toString())
+//        Log.d("myTag", intArray.toString())
+//        Log.d("myTag", list.toString())
         val thirdlargest = list[getTopOneindex(list)]
-        Log.d("myTag", thirdlargest.toString())
+//        Log.d("myTag", thirdlargest.toString())
         for(i in 0 until  intArray.size){
             if(thirdlargest == intArray[i])
                 return i

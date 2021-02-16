@@ -28,6 +28,7 @@ class EventViewHolder(itemView: View, adapter: EventAdapter) : RecyclerView.View
 
         itemView.setOnLongClickListener(OnLongClickListener {_ ->
             adapter.removeItem(this)
+
             true
         })
 }

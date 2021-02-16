@@ -59,46 +59,5 @@ data class MyEvent(
         }
     }
 
-//}{
-//
-//    val date = Date()
-//    var title = date.toString().substring(0,10)
-//    var isExpanded = false
-//    var amount: Int = 0
-//    lateinit var comment: String
-//    var events =  ArrayList<MyEvent>()
-//
-//
-//    init{
-//        if (isDate){
-//            this.title = date.toString().substring(0,10)
-//            this.comment = ""
-//        }else{
-//            this.amount = amount
-//            this.comment = comment
-//        }
-//    }
-
-
-//    override fun writeToParcel(parcel: Parcel, flags: Int) {
-////        parcel.writeString(questionType)
-////        parcel.writeInt(index)
-////        parcel.writeString(question)
-//    }
-//
-//    override fun describeContents(): Int {
-//        return 0
-//    }
-
-//    companion object CREATOR : Parcelable.Creator<MyEvent> {
-//        override fun createFromParcel(parcel: Parcel): MyEvent {
-//            return MyEvent(parcel)
-//        }
-//
-//        override fun newArray(size: Int): Array<MyEvent?> {
-//            return arrayOfNulls(size)
-//        }
-//    }
-
 
 }

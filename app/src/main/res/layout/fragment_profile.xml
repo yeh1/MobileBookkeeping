@@ -20,22 +20,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="UserName"
-        android:textSize="50dp"
+        android:textSize="50sp"
         />
     <Button
         android:id="@+id/set_username_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Set the Username"/>
+        android:text="@string/set_the_username"/>
 
     <Button
         android:id="@+id/sign_out_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Sign Out"/>
+        android:text="@string/sign_out"/>
 
     <View
         android:layout_marginTop="30dp"
@@ -57,65 +56,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="16dp"
-            android:text="Set the Budeget"/>
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:text="@string/set_budget"/>
 
         <Button
             android:id="@+id/month_button"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="16dp"
-            android:text="Set the Month"/>
+            android:textSize="16sp"
+            android:text="@string/select_month"/>
 
         <TextView
             android:id="@+id/month_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
-            android:text="June"/>
+            android:text="@string/month"
+            />
 
         <TextView
             android:id="@+id/budget_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
 
             android:textColor="#F44336"
             android:layout_gravity="center_horizontal"
-            android:text="Buget Amount: $1000"/>
+            />
 
         <TextView
             android:id="@+id/budget_remain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#8BC34A"
             android:layout_gravity="center_horizontal"
-            android:text="Buget Remain: $380"/>
+            android:text="@string/budget_remain"
+          />
 
 
     </LinearLayout>
 
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/text_notifications"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:textAlignment="center"-->
-    <!--        android:textSize="20sp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 </LinearLayout>

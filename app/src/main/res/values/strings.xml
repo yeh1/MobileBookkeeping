@@ -27,5 +27,15 @@
     <string name="amount_hint">0</string>
     <string name="enter_the_amount">Enter the amount:</string>
     <string name="select">Select</string>
+    <string name="_2021">2021</string>
+    <string name="feb">Feb</string>
+    <string name="select_a_category">Select a category:</string>
+    <string name="set_budget">Set Budget</string>
+    <string name="select_month">Select Month</string>
+    <string name="budget_remain">Budget Remaining</string>
+    <string name="month">Month</string>
+    <string name="login">Login</string>
+    <string name="set_the_username">Set the Username</string>
+    <string name="sign_out">Sign Out</string>
 
 </resources>

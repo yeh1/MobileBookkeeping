@@ -5,8 +5,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-
     >
 
     <TextView
@@ -15,8 +13,30 @@
         android:layout_height="wrap_content"
         android:text="@string/confirm_textview"
         android:textSize="24sp">
-
     </TextView>
+
+    <TextView
+        android:id="@+id/confirm_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/confirm_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp">
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/confirm_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp">
+    </TextView>
+
 
 
 

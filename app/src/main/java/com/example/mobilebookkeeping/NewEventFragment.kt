@@ -32,9 +32,6 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
     private val ARG_UID = "UID"
     private var uid: String? = null
 
-//    val categoryRef = FirebaseFirestore
-//        .getInstance()
-//        .collection("category")
 
 //    private var listener: OnSelectedListener? = null
     companion object {
@@ -65,10 +62,9 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
 
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_event, null, false)
         builder?.setView(view)
-        view.confirm_message.setText("Amount:" + amount+ user_comment)
-
-        Log.d("tag", "uid = "+uid)
-
+        view.confirm_category.setText("Category: " + category_button.text.toString())
+        view.confirm_amount.setText("Amount:" + amount)
+        view.confirm_comment.setText("Comment: " + user_comment)
         builder?.setPositiveButton(android.R.string.ok){ _, _ ->
             val latestEvent = adapter.getLatestDateEvent()
             val newDate = MyEvent(0, "", true, uid!!)
@@ -86,7 +82,6 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
                 adapter.notifyDataSetChanged()
 
             }else{
-                Log.d("myTag", ",SG")
                 newDate.events.add(newEvent)
                 adapter.add(newDate)
                 //adapter.notifyDataSetChanged()
@@ -104,7 +99,9 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
         builder?.setTitle(R.string.add_dialog_confirm)
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_add_event, null, false)
         builder?.setView(view)
-        view.confirm_message.setText("Amount:" + amount+ user_comment)
+        view.confirm_category.setText("Category: " + category_button.text.toString())
+        view.confirm_amount.setText("Amount:" + amount)
+        view.confirm_comment.setText("Comment: " + user_comment)
         var positionInEvents = -1
         var parentPosition = 0
         for(i in 0.. position){

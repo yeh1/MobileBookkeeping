@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
             true
         })
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { _ ->
             val ft = supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragment_container, addFragment)
             ft.commit()
@@ -143,8 +143,8 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
 
                 if (userRef == null){
                     var u =  HashMap<String, String>()
-                    u.put("budget", "200");
-                    u.put("username", "name");
+                    u.put("budget", "0");
+                    u.put("username", "Username");
                     userRef.set(u).addOnSuccessListener {
 //                            Log.d("tag", "put user successs")
                     }
@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity(), LoginFragment.OnLoginButtonPressedList
         val loginIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.ic_baseline_add_24)
+                .setLogo(R.drawable.user)
                 .build()
 
         startActivityForResult(loginIntent, RC_SIGN_IN)

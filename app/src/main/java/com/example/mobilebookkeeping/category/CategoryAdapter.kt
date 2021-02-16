@@ -74,7 +74,7 @@ class CategoryAdapter (var context: Context?, var eventAdapter: EventAdapter) : 
             val nextFrag = NewEventFragment.newInstance(eventAdapter, true, eventAdapter.uID)
             nextFrag.editPosition = editPosition
 
-            val ft : FragmentTransaction = (myActivity as FragmentActivity).supportFragmentManager.beginTransaction()
+            val ft : FragmentTransaction = myActivity .supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragment_container,nextFrag)
             ft.commit()
         }else {
@@ -82,7 +82,7 @@ class CategoryAdapter (var context: Context?, var eventAdapter: EventAdapter) : 
             eventAdapter.category = categories[position].name
             val nextFrag = NewEventFragment.newInstance(eventAdapter, false, eventAdapter.uID)
             nextFrag.editPosition = editPosition
-            val ft: FragmentTransaction = (myActivity as FragmentActivity).supportFragmentManager.beginTransaction()
+            val ft: FragmentTransaction = myActivity.supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragment_container, nextFrag)
             ft.commit()
         }
