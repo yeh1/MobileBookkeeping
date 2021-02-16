@@ -32,6 +32,7 @@ data class MyEvent(
     init {
 
 
+
     }
     @get:Exclude
     var id = ""
