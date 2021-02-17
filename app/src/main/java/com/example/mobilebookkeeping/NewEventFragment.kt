@@ -30,7 +30,7 @@ class NewEventFragment(var adapter: EventAdapter, val isNew: Boolean) : Fragment
             .getInstance()
             .collection("events")
     private val ARG_UID = "UID"
-    private var uid: String? = null
+    private var uid: String? = ""
 
 
 //    private var listener: OnSelectedListener? = null
